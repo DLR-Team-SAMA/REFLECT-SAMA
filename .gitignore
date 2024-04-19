@@ -2,4 +2,4 @@
 *.jpg
 *.png
 *.avi
-
+!test_images/*
