@@ -8,7 +8,7 @@ import os
 import PIL.Image
 import PIL.ImageDraw
 
-def state_detector(vlm_model, image, plan, plan_state, curr_task, curr_task_state, message_history=[]): 
+def object_list_detector(vlm_model, image, plan, plan_state, curr_task, curr_task_state, message_history=[]): 
   print('message_history:',message_history)
   model = vlm_model
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
   plan_state = False
   curr_task_state = False
-  rsp = state_detector(model, image,  'plan',plan_state, 'curr_task', curr_task_state)
+  rsp = object_list_detector(model, image,  'plan',plan_state, 'curr_task', curr_task_state)
 
   print(rsp)
 

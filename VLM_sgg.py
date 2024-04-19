@@ -1,0 +1,116 @@
+# class for scene graph generation with VLM
+import google.generativeai as genai
+
+class VLM_SGG:
+    def __init__(self, model_name):
+        self.model = genai.GenerativeModel(model_name)
+        self.messages = []
+        self.objects = []
+        self.rois = []
+        self.plan = ''
+        self.curr_task = ''
+        self.plan_state = False
+        self.curr_task_state = False
+        self.image = None
+    
+    def add_message(self, role, parts):
+        self.messages.append({'role': role, 'parts': parts})
+    
+    def state_detector(self, image, rois, objects, message_history=[]):  #Edge - change prompt to edge from states, #Scene graph, object list - remove ROI's and objects
+        print('message_history:',message_history)
+        model = self.model
+
+        promt_list = ['What is the state are each of these objects in object?',image]
+
+        if self.plan_state:
+            promt_list.extend([f"This is the overall plan: {self.plan}", self.plan])
+
+        if self.curr_task_state:
+            promt_list.extend([f"This is the current task: {self.curr_task}", self.curr_task])
+        if(len(rois) != len(objects)):
+            print('Error: Number of objects and ROIs do not match')
+            return
+        for i in range(len(rois)):
+            promt_list.append(objects[i])
+            promt_list.append(rois[i])
+        messages = message_history
+        print("messages:",messages) 
+        messages.append({'role': 'user', 'parts':promt_list})
+        response = model.generate_content(messages[0]['parts'])
+        return response.text
+
+    def edge_detector(self, image, rois, objects, message_history=[]):  
+        print('message_history:',message_history)
+        model = self.model
+
+        promt_list = ['What are the relationships/edges between the objects?',image]
+        if self.plan_state:
+            promt_list.extend([f"This is the overall plan: {self.plan}", self.plan])
+
+        if self.curr_task_state:
+            promt_list.extend([f"This is the current task: {self.curr_task}", self.curr_task])
+            
+        if(len(rois) != len(objects)):
+            print('Error: Number of objects and ROIs do not match')
+            return
+        for i in range(len(rois)):
+            promt_list.append(objects[i])
+            promt_list.append(rois[i])
+        messages = message_history
+        print("messages:",messages) 
+        messages.append({'role': 'user', 'parts':promt_list})
+        response = model.generate_content(messages[0]['parts'])
+        return response.text
+
+    def object_list_detector(self, image, message_history=[]): 
+        print('message_history:',message_history)
+        model = self.model
+
+        promt_list = ['Give a list of objects present in the scene?',image]
+
+        if self.plan_state:
+            promt_list.extend([f"This is the overall plan: {self.plan}", self.plan])
+
+        if self.curr_task_state:
+            promt_list.extend([f"This is the current task: {self.curr_task}", self.curr_task])
+
+        messages = message_history
+        print("messages:",messages) 
+        messages.append({'role': 'user', 'parts':promt_list})
+        response = model.generate_content(messages[0]['parts'])
+        return response.text
+    
+    def e2e_sgg(self,image, message_history=[]):  
+        print('message_history:',message_history)
+        model = self.model
+        promt_list = ['Generate a scene graph given this image?',image]
+
+        if self.plan_state:
+            promt_list.extend([f"This is the overall plan: {self.plan}", self.plan])
+
+        if self.curr_task_state:
+            promt_list.extend([f"This is the current task: {self.curr_task}", self.curr_task])
+        messages = message_history
+        print("messages:",messages) 
+        messages.append({'role': 'user', 'parts':promt_list})
+        response = model.generate_content(messages[0]['parts'])
+        return response.text
+    
+    def sgg_layered(self, objects, states, edges, message_history=[]): 
+        print('message_history:',message_history)
+        model = self.model
+
+        promt_list = ['Construct a scene graph with the given objects, states and edges. \n Objects:'+objects+'\n States:'+states+'\n Edges:'+edges]
+
+        if self.plan_state:
+            promt_list.extend([f"This is the overall plan: {self.plan}", self.plan])
+
+        if self.curr_task_state:
+            promt_list.extend([f"This is the current task: {self.curr_task}", self.curr_task])
+
+        messages = message_history
+        print("messages:",messages) 
+        messages.append({'role': 'user', 'parts':promt_list})
+        response = model.generate_content(messages[0]['parts'])
+        return response.text
+    

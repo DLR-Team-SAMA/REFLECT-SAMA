@@ -8,7 +8,7 @@ import os
 import PIL.Image
 import PIL.ImageDraw
 
-def state_detector(vlm_model, image, plan, plan_state, curr_task, curr_task_state, message_history=[]):  
+def edge_detector(vlm_model, image, rois, plan, plan_state, curr_task, curr_task_state, message_history=[]):  
   print('message_history:',message_history)
   model = vlm_model
 
@@ -76,7 +76,7 @@ if __name__ == '__main__':
   roi_toaster = image.crop(bbox_toaster)
   roi_tap = image.crop(bbox_tap)
 
-  rois = [roi_cup,roi_soap_disp,roi_potato,roi_sponge,roi_ppr_twl,roi_toaster,roi_tap]
+  rois_ = [roi_cup,roi_soap_disp,roi_potato,roi_sponge,roi_ppr_twl,roi_toaster,roi_tap]
   objects = ['cup','soap_dispenser','potato','sponge','paper_towel','toaster','tap']
 
   # draw = PIL.ImageDraw.Draw(image)
@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
   plan_state = False
   curr_task_state = False
-  rsp = state_detector(model, image,  'plan',plan_state, 'curr_task', curr_task_state)
+  rsp = edge_detector(model, image, rois_, 'plan',plan_state, 'curr_task', curr_task_state)
 
   print(rsp)
 
