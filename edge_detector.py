@@ -8,17 +8,17 @@ import os
 import PIL.Image
 import PIL.ImageDraw
 
-def state_detector(vlm_model, image, plan, plan_state, curr_task, curr_task_state, message_history=[]):  #Edge - change prompt to edge from states, #Scene graph, object list - remove ROI's and objects
+def state_detector(vlm_model, image, plan, plan_state, curr_task, curr_task_state, message_history=[]):  
   print('message_history:',message_history)
   model = vlm_model
 
-  promt_list = ['What is the state are each of these objects in object?',image]
-
+  promt_list = ['What are the relationships/edges between the objects?',image]
   if plan_state:
     promt_list.extend([f"This is the overall plan: {plan}", plan])
 
   if curr_task_state:
     promt_list.extend([f"This is the current task: {curr_task}", curr_task])
+    
   if(len(rois) != len(objects)):
     print('Error: Number of objects and ROIs do not match')
     return

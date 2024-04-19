@@ -8,23 +8,18 @@ import os
 import PIL.Image
 import PIL.ImageDraw
 
-def state_detector(vlm_model, image, plan, plan_state, curr_task, curr_task_state, message_history=[]):  #Edge - change prompt to edge from states, #Scene graph, object list - remove ROI's and objects
+def state_detector(vlm_model, image, plan, plan_state, curr_task, curr_task_state, message_history=[]): 
   print('message_history:',message_history)
   model = vlm_model
 
-  promt_list = ['What is the state are each of these objects in object?',image]
+  promt_list = ['Give a list of objects present in the scene?',image]
 
   if plan_state:
     promt_list.extend([f"This is the overall plan: {plan}", plan])
 
   if curr_task_state:
     promt_list.extend([f"This is the current task: {curr_task}", curr_task])
-  if(len(rois) != len(objects)):
-    print('Error: Number of objects and ROIs do not match')
-    return
-  for i in range(len(rois)):
-    promt_list.append(objects[i])
-    promt_list.append(rois[i])
+
   messages = message_history
   print("messages:",messages) 
   messages.append({'role': 'user', 'parts':promt_list})
@@ -68,16 +63,8 @@ if __name__ == '__main__':
 
   # bbox = [605,400,725,520]
   # draw the bounding box
-  roi_cup = image.crop(bbox_cup)
-  roi_soap_disp = image.crop(bbox_soap_disp)
-  roi_potato = image.crop(bbox_potato)
-  roi_sponge = image.crop(bbox_sponge)
-  roi_ppr_twl = image.crop(bbox_ppr_twl)
-  roi_toaster = image.crop(bbox_toaster)
-  roi_tap = image.crop(bbox_tap)
 
-  rois = [roi_cup,roi_soap_disp,roi_potato,roi_sponge,roi_ppr_twl,roi_toaster,roi_tap]
-  objects = ['cup','soap_dispenser','potato','sponge','paper_towel','toaster','tap']
+
 
   # draw = PIL.ImageDraw.Draw(image)
   # draw.rectangle(bbox, outline='red', width=2)
