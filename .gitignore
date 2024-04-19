@@ -3,3 +3,8 @@
 *.png
 *.avi
 !test_images/*
+
+images/
+videos/
+change_detection/yolov4.cfg
+change_detection/yolov4.weights
