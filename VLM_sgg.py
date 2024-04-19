@@ -1,5 +1,7 @@
 # class for scene graph generation with VLM
 import google.generativeai as genai
+from ultralytics import YOLO
+import supervision as sv
 
 class VLM_SGG:
     def __init__(self, model_name):
@@ -12,6 +14,23 @@ class VLM_SGG:
         self.plan_state = False
         self.curr_task_state = False
         self.image = None
+
+    def object_detector(self,image, object_list=None):
+        print("Running object detector...")
+
+        model = YOLO('yolov8s-world.pt')
+        model.set_classes(object_list)
+        results = model.predict(image)
+        detections = sv.Detections.from_ultralytics(results[0])
+        ret_bboxs = list(detections.xyxy)
+        ret_obj_lbls = list(detections.data['class_name'])
+        print(ret_bboxs)
+        print(ret_obj_lbls)
+
+
+
+        return ret_bboxs, ret_obj_lbls
+      
     
     def add_message(self, role, parts):
         self.messages.append({'role': role, 'parts': parts})
