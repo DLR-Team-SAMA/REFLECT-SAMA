@@ -97,7 +97,11 @@ class VLM_SGG:
         print("messages:",messages) 
         messages.append({'role': 'user', 'parts':promt_list})
         response = model.generate_content(messages[0]['parts'])
-        return response.text
+        object_list = response.text.strip().split('\n')  # Splitting based on new lines to handle each item
+        cleaned_object_list = [obj.strip('* ').replace('A ', '').replace('An ', '') for obj in object_list if obj.strip() ]
+
+        cleaned_object_list = [obj for obj in cleaned_object_list if obj] 
+        return cleaned_object_list
     
     def e2e_sgg(self,image, message_history=[]):  
         print('message_history:',message_history)
