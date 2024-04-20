@@ -2,6 +2,7 @@
 import google.generativeai as genai
 from ultralytics import YOLO
 import supervision as sv
+from utils import bboxes_to_rois
 
 class VLM_SGG:
     def __init__(self, model_name):
@@ -113,6 +114,7 @@ class VLM_SGG:
         print("messages:",messages) 
         messages.append({'role': 'user', 'parts':promt_list})
         response = model.generate_content(messages[0]['parts'])
+        
         return response.text
     
     def sgg_layered(self, objects, states, edges, message_history=[]): 
@@ -132,4 +134,20 @@ class VLM_SGG:
         messages.append({'role': 'user', 'parts':promt_list})
         response = model.generate_content(messages[0]['parts'])
         return response.text
+    def get_scene_graph(self,image):
+        objects = self.object_list_detector(image)
+        objects= ['cup','soap_dispenser','potato','sponge','paper_towel','toaster','tap']
+
+        object_bboxes, object_labels = self.object_detector(image, objects)
+
+        rois = bboxes_to_rois(image,object_bboxes)
+
+        states = self.state_detector(image, rois, object_labels, [])
+        edges = self.edge_detector(image, rois, object_labels, [])
+
+        scene_graph = 'states: '+states+'\n'+'edges: '+edges
+
+        return scene_graph
+
+
     
