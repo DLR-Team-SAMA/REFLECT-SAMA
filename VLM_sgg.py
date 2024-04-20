@@ -118,7 +118,7 @@ class VLM_SGG:
         print("messages:",messages) 
         messages.append({'role': 'user', 'parts':promt_list})
         response = model.generate_content(messages[0]['parts'])
-        
+
         return response.text
     
     def sgg_layered(self, objects, states, edges, message_history=[]): 
@@ -140,7 +140,7 @@ class VLM_SGG:
         return response.text
     def get_scene_graph(self,image):
         objects = self.object_list_detector(image)
-        objects= ['cup','soap_dispenser','potato','sponge','paper_towel','toaster','tap']
+        # objects= ['cup','soap_dispenser','potato','sponge','paper_towel','toaster','tap']
 
         object_bboxes, object_labels = self.object_detector(image, objects)
 
