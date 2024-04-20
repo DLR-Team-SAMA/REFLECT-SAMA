@@ -3,6 +3,7 @@ import google.generativeai as genai
 from ultralytics import YOLO
 import supervision as sv
 from utils import bboxes_to_rois
+import time
 
 class VLM_SGG:
     def __init__(self, model_name):
@@ -147,9 +148,13 @@ class VLM_SGG:
         rois = bboxes_to_rois(image,object_bboxes)
 
         states = self.state_detector(image, rois, object_labels, [])
+        time.sleep(1)
         edges = self.edge_detector(image, rois, object_labels, [])
 
-        scene_graph = 'states: '+states+'\n'+'edges: '+edges
+        # scene_graph = 'states: '+states+'.'+'edges: '+edges
+        scene_graph = states +edges
+
+
 
         return scene_graph
 
