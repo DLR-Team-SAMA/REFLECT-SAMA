@@ -8,3 +8,4 @@ images/
 videos/
 change_detection/yolov4.cfg
 change_detection/yolov4.weights
+__pycache__/*
