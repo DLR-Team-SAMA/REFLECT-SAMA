@@ -2,7 +2,7 @@ import cv2
 import os
 
 # Base path to video files
-video_folder = 'reflect/main/few_shot_examples'
+video_folder = 'robofail/videos'
 
 # List of all video files
 video_files = [f for f in os.listdir(video_folder) if f.endswith(('.mp4', '.avi'))]  # Add more extensions if needed
@@ -11,7 +11,7 @@ video_files = [f for f in os.listdir(video_folder) if f.endswith(('.mp4', '.avi'
 event_keyframes = [45, 234, 11, 78, 32, 98, 43, 90, 32, 47]
 
 # Single output folder for all frames
-output_folder = 'few_shot_data'
+output_folder = 'test_images'
 
 # Ensure the output folder exists
 if not os.path.exists(output_folder):
