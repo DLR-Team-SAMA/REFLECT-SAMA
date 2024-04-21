@@ -42,7 +42,7 @@ class VLM_SGG:
         print('message_history:',message_history)
         model = self.model
 
-        promt_list = ['What is the state are each of these objects in object?',image]
+        promt_list = ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list',image]
 
         if self.plan_state:
             promt_list.extend([f"This is the overall plan: {self.plan}", self.plan])
@@ -65,7 +65,7 @@ class VLM_SGG:
         print('message_history:',message_history)
         model = self.model
 
-        promt_list = ['What are the relationships/edges between the objects?',image]
+        promt_list = ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',image]
         if self.plan_state:
             promt_list.extend([f"This is the overall plan: {self.plan}", self.plan])
 
@@ -88,7 +88,7 @@ class VLM_SGG:
         print('message_history:',message_history)
         model = self.model
 
-        promt_list = ['Give a list of objects present in the scene?',image]
+        promt_list = ['You are an object detector. Give a list of all the objects in the image',image]
 
         if self.plan_state:
             promt_list.extend([f"This is the overall plan: {self.plan}", self.plan])
@@ -160,26 +160,26 @@ class VLM_SGG:
         img_10 = cv2.imread('reflect/main/few_shot_data/pic10.png')
 
         if use_message_history == True:
-            message_history_pic1_object = [{'role': 'user', 'parts': ['What are the objects in this image?',img_1]},
+            message_history_pic1_object = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_1]},
                                {'role': 'model', 'parts': ['[carrot,onion,knife,faucet,stove,mug,countertop,fridge]']}]
 
-            message_history_pic2_object = [{'role': 'user', 'parts': ['What are the objects in this image?',img_2]},
+            message_history_pic2_object = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_2]},
                                {'role': 'model', 'parts': ['[apple,bowl,cutting board,mug,plate,stove,countertop,fridge]']}]
-            message_history_pic3_object  = [{'role': 'user', 'parts': ['What are the objects in this image?',img_3]},
+            message_history_pic3_object  = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_3]},
                                {'role': 'model', 'parts': ['[bowl,steel container,faucet,stove,boxes,mug,countertop,fridge]']}]
-            message_history_pic4_object  = [{'role': 'user', 'parts': ['What are the objects in this image?',img_4]},
+            message_history_pic4_object  = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_4]},
                                {'role': 'model', 'parts': ['[tomato,egg,bread,mug,countertop,oven,fridge]']}]
-            message_history_pic5_object  = [{'role': 'user', 'parts': ['What are the objects in this image?',img_5]},
+            message_history_pic5_object  = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_5]},
                                {'role': 'model', 'parts': ['[spatula,kettle,salt shaker,pepper shaker,bread loaf,toaster,countertop,plate,microwave]']}]
-            message_history_pic6_object  = [{'role': 'user', 'parts': ['What are the objects in this image?',img_6]},
+            message_history_pic6_object  = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_6]},
                                {'role': 'model', 'parts': ['[plant,sofa,table,laptop]']}]
-            message_history_pic7_object  = [{'role': 'user', 'parts': ['What are the objects in this image?',img_7]},
+            message_history_pic7_object  = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_7]},
                                {'role': 'model', 'parts': ['[laptop,television,keys,watch,trashcan]']}]
-            message_history_pic8_object  = [{'role': 'user', 'parts': ['What are the objects in this image?',img_8]},
+            message_history_pic8_object  = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_8]},
                                {'role': 'model', 'parts': ['[dishwash soap, spatula,knife,plate,faucet,sponge,countertop,bottle]']}]
-            message_history_pic9_object  = [{'role': 'user', 'parts': ['What are the objects in this image?',img_9]},
+            message_history_pic9_object  = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_9]},
                                {'role': 'model', 'parts': ['[kettle,egg,pan,salt shaker, pepper shaker]']}]
-            message_history_pic10_object  = [{'role': 'user', 'parts': ['What are the objects in this image?',img_10]},
+            message_history_pic10_object  = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_10]},
                                {'role': 'model', 'parts': ['[plants,potato,pan,knife,fork,tomato,bread,lettuce]']}]
             
         
@@ -197,26 +197,26 @@ class VLM_SGG:
 
 
 
-            message_history_pic1_states = [{'role': 'user', 'parts': ['What are the states of the objects in this image?',img_1]},
+            message_history_pic1_states = [{'role': 'user', 'parts': ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list.',img_1]},
                                {'role': 'model', 'parts': ['[faucet:off,stove:off,fridge:closed]']}]
 
-            message_history_pic2_states = [{'role': 'user', 'parts': ['What are the states of the objects in this image?',img_2]},
+            message_history_pic2_states = [{'role': 'user', 'parts': ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list.',img_2]},
                                {'role': 'model', 'parts': ['[faucet:off,stove:off,fridge:closed']}]
-            message_history_pic3_states   = [{'role': 'user', 'parts': ['What are the states of the objects in this image?',img_3]},
+            message_history_pic3_states   = [{'role': 'user', 'parts': ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list.',img_3]},
                                {'role': 'model', 'parts': ['[faucet:off,stove:off]']}]
-            message_history_pic4_states  = [{'role': 'user', 'parts': ['What are the states of the objects in this image?',img_4]},
+            message_history_pic4_states  = [{'role': 'user', 'parts': ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list.',img_4]},
                                {'role': 'model', 'parts': ['[oven:off,fridge:closed]']}]
-            message_history_pic5_states   = [{'role': 'user', 'parts': ['What are the states of the objects in this image?',img_5]},
+            message_history_pic5_states   = [{'role': 'user', 'parts': ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list.',img_5]},
                                {'role': 'model', 'parts': ['[toaster:on,microwave:on]']}]
-            message_history_pic6_states   = [{'role': 'user', 'parts': ['What are the states of the objects in this image?',img_6]},
+            message_history_pic6_states   = [{'role': 'user', 'parts': ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list.',img_6]},
                                {'role': 'model', 'parts': ['[laptop:open]']}]
-            message_history_pic7_states  = [{'role': 'user', 'parts': ['What are the states of the objects in this image?',img_7]},
+            message_history_pic7_states  = [{'role': 'user', 'parts': ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list.',img_7]},
                                {'role': 'model', 'parts': ['[laptop:open,television:off]']}]
-            message_history_pic8_states  = [{'role': 'user', 'parts': ['What are the states of the objects in this image?',img_8]},
+            message_history_pic8_states  = [{'role': 'user', 'parts': ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list.',img_8]},
                                {'role': 'model', 'parts': ['[faucet:off]']}]
-            message_history_pic9_states   = [{'role': 'user', 'parts': ['What are the states of the objects in this image?',img_9]},
+            message_history_pic9_states   = [{'role': 'user', 'parts': ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list.',img_9]},
                                {'role': 'model', 'parts': ['[kettle:off]']}]
-            message_history_pic10_states  = [{'role': 'user', 'parts': ['What are the states of the objects in this image?',img_10]},
+            message_history_pic10_states  = [{'role': 'user', 'parts': ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list.',img_10]},
                                {'role': 'model', 'parts': ['[]']}]
           
             message_history_states.extend(message_history_pic1_states)
@@ -234,26 +234,26 @@ class VLM_SGG:
 
 
 
-            message_history_pic1_edges = [{'role': 'user', 'parts': ['What are the relationships between the objects in this image?',img_1]},
+            message_history_pic1_edges = [{'role': 'user', 'parts': ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',img_1]},
                                {'role': 'model', 'parts': ['carrot is to the left of the knife.onion is to the right of the carrot.mug is below the countertop.']}]
 
-            message_history_pic2_edges = [{'role': 'user', 'parts': ['What are the relationships between the objects in this image?',img_2]},
+            message_history_pic2_edges = [{'role': 'user', 'parts': ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',img_2]},
                                {'role': 'model', 'parts': ['bowl is to the right of the apple.cutting board is hanging on top of the faucet.cutting board is to the right of the apple.plate is above the mug.']}]
-            message_history_pic3_edges   = [{'role': 'user', 'parts': ['What are the relationships between the objects in this image?',img_3]},
+            message_history_pic3_edges   = [{'role': 'user', 'parts': ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',img_3]},
                                {'role': 'model', 'parts': ['bowl is to the left of the steel container.mug is below the countertop.boxes are adjacent to the stove']}]
-            message_history_pic4_edges  = [{'role': 'user', 'parts': ['What are the relationships between the objects in this image?',img_4]},
+            message_history_pic4_edges  = [{'role': 'user', 'parts': ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',img_4]},
                                {'role': 'model', 'parts': ['egg is to the right of tomato.mug is on the countertop.tomato is on the countertop.egg is on the countertop.']}]
-            message_history_pic5_edges   = [{'role': 'user', 'parts': ['What are the relationships between the objects in this image?',img_5]},
+            message_history_pic5_edges   = [{'role': 'user', 'parts': ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',img_5]},
                                {'role': 'model', 'parts': ['bread is inside the toaster.plate is inside the microwave.spatula is on the countertop.kettle is on the countertop.salt shaker is on the countertop.pepper shaker is on the countertop.']}]
-            message_history_pic6_edges   = [{'role': 'user', 'parts': ['What are the relationships between the objects in this image?',img_6]},
+            message_history_pic6_edges   = [{'role': 'user', 'parts': ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',img_6]},
                                {'role': 'model', 'parts': ['plant is on the table.plant is adjacent to the laptop.sofa is in front of laptop.']}]
-            message_history_pic7_edges  = [{'role': 'user', 'parts': ['What are the relationships between the objects in this image?',img_7]},
+            message_history_pic7_edges  = [{'role': 'user', 'parts': ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',img_7]},
                                {'role': 'model', 'parts': ['laptop is in front of television. watch is on  the table. keys are on the table. trashcan is adjacent to the table.']}]
-            message_history_pic8_edges  = [{'role': 'user', 'parts': ['What are the relationships between the objects in this image?',img_8]},
+            message_history_pic8_edges  = [{'role': 'user', 'parts': ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',img_8]},
                                {'role': 'model', 'parts': ['spatula is on the countertop. dishwash soap is on the countertop. knife is in the sink. plate is in the sink. sponge is on the sink. bottle is in the sink.knife is to the right of plate.spatula is in front of dishwashing soap']}]
-            message_history_pic9_edges   = [{'role': 'user', 'parts': ['What are the relationships between the objects in this image?',img_9]},
+            message_history_pic9_edges   = [{'role': 'user', 'parts': ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',img_9]},
                                {'role': 'model', 'parts': ['kettle is on the countertop. egg is on the countertop. pan is on the countertop. salt shaker is on the countertop. pepper shaker is on the countertop. spatula is adjacent to salt shaker. egg is to the left of the pan.']}]
-            message_history_pic10_edges  = [{'role': 'user', 'parts': ['What are the relationships between the objects in this image?',img_10]},
+            message_history_pic10_edges  = [{'role': 'user', 'parts': ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',img_10]},
                                {'role': 'model', 'parts': ['potato is on the pan.lettuce is near the bread.tomato is on the countertop.knife is on the countertop.knife is adjacent to the fork.']}]
             
             

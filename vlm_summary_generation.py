@@ -110,24 +110,24 @@ def get_vlm_summary(vlm_sgg, data_fold):
 # fld = 'reflect/main/keyframe_dataset/boilWater/boilWater-1'
 # get_vlm_summary(sgg,fld)
 
-# kframe_dataset = 'reflect/main/keyframe_dataset'
-# tasks = os.listdir(kframe_dataset)
-# for task in tasks:
-#     cases = os.listdir(f'{kframe_dataset}/{task}')
-#     for case in cases:
-#         print(f'{kframe_dataset}/{task}/{case}')
-#         get_vlm_summary(sgg,f'{kframe_dataset}/{task}/{case}')
+kframe_dataset = 'reflect/main/keyframe_dataset'
+tasks = os.listdir(kframe_dataset)
+for task in tasks:
+    cases = os.listdir(f'{kframe_dataset}/{task}')
+    for case in cases:
+        print(f'{kframe_dataset}/{task}/{case}')
+        get_vlm_summary(sgg,f'{kframe_dataset}/{task}/{case}')
 
 
-# kframe_dataset = 'reflect/main/keyframe_dataset'
-# tasks = os.listdir(kframe_dataset)
-# for task in tasks:
-#     cases = os.listdir(f'{kframe_dataset}/{task}')
-#     for case in cases:
-#         print(f'{kframe_dataset}/{task}/{case}')
-#         get_L2_summary(f'{kframe_dataset}/{task}/{case}')
+kframe_dataset = 'reflect/main/keyframe_dataset'
+tasks = os.listdir(kframe_dataset)
+for task in tasks:
+    cases = os.listdir(f'{kframe_dataset}/{task}')
+    for case in cases:
+        print(f'{kframe_dataset}/{task}/{case}')
+        get_L2_summary(f'{kframe_dataset}/{task}/{case}')
 
 
-get_vlm_summary(sgg,'reflect/main/keyframe_dataset/boilWater/boilWater-1')
-get_L2_summary('reflect/main/keyframe_dataset/boilWater/boilWater-1')
+# get_vlm_summary(sgg,'reflect/main/keyframe_dataset/boilWater/boilWater-1')
+# get_L2_summary('reflect/main/keyframe_dataset/boilWater/boilWater-1')
     
