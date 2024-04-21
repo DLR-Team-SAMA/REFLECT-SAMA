@@ -35,6 +35,12 @@ def run_reasoning(folder_name):
     prompt_json = 'prompt.json'
     L1_txt_fn = f'{folder_name}/{type_of_summary}_L1.txt'
     L2_txt_fn = f'{folder_name}/{type_of_summary}_L2.txt'
+    if not os.path.exists(L1_txt_fn):
+        print(f"[INFO] {L1_txt_fn} does not exist. Skipping reasoning.")
+        return
+    if not os.path.exists(L2_txt_fn):
+        print(f"[INFO] {L2_txt_fn} does not exist. Skipping reasoning.")
+        return
 
     GOOGLE_API_KEY=os.getenv('GEMINI_API_KEY')
     genai.configure(api_key=GOOGLE_API_KEY)
@@ -171,6 +177,12 @@ def run_reasoning(folder_name):
         json.dump(reasoning_dict, f)
 
 
-folder = 'reflect/main/keyframe_dataset/boilWater/boilWater-1'
-
-run_reasoning(folder)
+# folder = 'reflect/main/keyframe_dataset/boilWater/boilWater-1'
+keyframe_dataset = 'reflect/main/keyframe_dataset'
+tasks = os.listdir(keyframe_dataset)
+for task in tasks:
+    cases = os.listdir(f'{keyframe_dataset}/{task}')
+    for case in cases:
+        folder = f'{keyframe_dataset}/{task}/{case}'
+        print(f'Running reasoning for {folder}...')
+        run_reasoning(folder)

@@ -4,7 +4,7 @@ from ultralytics import YOLO
 import supervision as sv
 from utils import bboxes_to_rois
 import time
-import cv2
+from PIL import Image
 
 class VLM_SGG:
     def __init__(self, model_name):
@@ -39,7 +39,7 @@ class VLM_SGG:
         self.messages.append({'role': role, 'parts': parts})
     
     def state_detector(self, image, rois, objects, message_history=[]):  #Edge - change prompt to edge from states, #Scene graph, object list - remove ROI's and objects
-        print('message_history:',message_history)
+        # print('message_history:',message_history)
         model = self.model
 
         promt_list = ['You are an object state detector. You are given an image, cropped section of each object in the image, a corresponding list of object names. Based on the given image, list the state of each object in the object list',image]
@@ -62,7 +62,7 @@ class VLM_SGG:
         return response.text
 
     def edge_detector(self, image, rois, objects, message_history=[]):  
-        print('message_history:',message_history)
+        # print('message_history:',message_history)
         model = self.model
 
         promt_list = ['You are expected to identify the spatial relationship between objects. You are given an image, cropped section of each object in the image, a list of objects in the image. For each pair of objects in this image, identify the spatial relationship between them.',image]
@@ -85,7 +85,7 @@ class VLM_SGG:
         return response.text
 
     def object_list_detector(self, image, message_history=[]): 
-        print('message_history:',message_history)
+        # print('message_history:',message_history)
         model = self.model
 
         promt_list = ['You are an object detector. Give a list of all the objects in the image',image]
@@ -99,7 +99,9 @@ class VLM_SGG:
         messages = message_history
         print("messages:",messages) 
         messages.append({'role': 'user', 'parts':promt_list})
-        response = model.generate_content(messages[0]['parts'])
+        # response = model.generate_content(messages[0]['parts'])
+        response = model.generate_content(messages)
+
         object_list = response.text.strip().split('\n')  # Splitting based on new lines to handle each item
         cleaned_object_list = [obj.strip('* ').replace('A ', '').replace('An ', '') for obj in object_list if obj.strip() ]
 
@@ -107,7 +109,7 @@ class VLM_SGG:
         return cleaned_object_list
     
     def e2e_sgg(self,image, message_history=[]):  
-        print('message_history:',message_history)
+        # print('message_history:',message_history)
         model = self.model
         promt_list = ['Generate a scene graph given this image?',image]
 
@@ -124,7 +126,7 @@ class VLM_SGG:
         return response.text
     
     def sgg_layered(self, objects, states, edges, message_history=[]): 
-        print('message_history:',message_history)
+        # print('message_history:',message_history)
         model = self.model
 
         promt_list = ['Construct a scene graph with the given objects, states and edges. \n Objects:'+objects+'\n States:'+states+'\n Edges:'+edges]
@@ -148,16 +150,16 @@ class VLM_SGG:
         message_history_states = []
         message_history_edges = []
 
-        img_1 = cv2.imread('reflect/main/few_shot_data/pic1.png')
-        img_2 = cv2.imread('reflect/main/few_shot_data/pic2.png')
-        img_3 = cv2.imread('reflect/main/few_shot_data/pic3.png')
-        img_4 = cv2.imread('reflect/main/few_shot_data/pic4.png')
-        img_5 = cv2.imread('reflect/main/few_shot_data/pic5.png')
-        img_6 = cv2.imread('reflect/main/few_shot_data/pic6.png')
-        img_7 = cv2.imread('reflect/main/few_shot_data/pic7.png')
-        img_8 = cv2.imread('reflect/main/few_shot_data/pic8.png')
-        img_9 = cv2.imread('reflect/main/few_shot_data/pic9.png')
-        img_10 = cv2.imread('reflect/main/few_shot_data/pic10.png')
+        img_1 = Image.open('few_shot_data/pic1.png')
+        img_2 = Image.open('few_shot_data/pic2.png')
+        img_3 = Image.open('few_shot_data/pic3.png')
+        img_4 = Image.open('few_shot_data/pic4.png')
+        img_5 = Image.open('few_shot_data/pic5.png')
+        img_6 = Image.open('few_shot_data/pic6.png')
+        img_7 = Image.open('few_shot_data/pic7.png')
+        img_8 = Image.open('few_shot_data/pic8.png')
+        img_9 = Image.open('few_shot_data/pic9.png')
+        img_10 = Image.open('few_shot_data/pic10.png')
 
         if use_message_history == True:
             message_history_pic1_object = [{'role': 'user', 'parts': ['You are an object detector. Give a list of all the objects in the image',img_1]},
@@ -274,21 +276,22 @@ class VLM_SGG:
 
         objects = self.object_list_detector(image, message_history_object)
         # objects= ['cup','soap_dispenser','potato','sponge','paper_towel','toaster','tap']
-
+        print("#"*50)
+        print("Objects:\n",objects)   
+        time.sleep(30)
         object_bboxes, object_labels = self.object_detector(image, objects)
 
         rois = bboxes_to_rois(image,object_bboxes)
 
         states = self.state_detector(image, rois, object_labels, message_history_states)
-        time.sleep(1)
+        time.sleep(30)
         edges = self.edge_detector(image, rois, object_labels, message_history_edges)
-
+        time.sleep(30)
         # scene_graph = 'states: '+states+'.'+'edges: '+edges
         scene_graph = states +edges
 
 
 
         return scene_graph
-
 
     
